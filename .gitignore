@@ -1,7 +1,9 @@
-logs
 *.log
-pids
 *.pid
 *.seed
-node_modules
+
 .DS_Store
+
+logs
+pids
+node_modules
