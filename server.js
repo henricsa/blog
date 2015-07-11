@@ -6,7 +6,8 @@ var koa = require('koa'),
     views = require('koa-views'),
     serve = require('koa-static'),
     React = require('react'),
-    BlogApp = React.createFactory(require('./app/components/BlogApp'));
+    BlogApp = React.createFactory(require('./app/components/BlogApp')),
+    config = require('./utils').getEnvironemtConfig();
 
 var app = koa();
 app.use(views('views', {
