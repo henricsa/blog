@@ -1,11 +1,16 @@
 'use strict';
 
 var React = require('react');
+var Router = require('react-router');
+var RouteHandler = Router.RouteHandler;
 
-var BlogApp = React.createClass({
+module.exports = React.createClass({
   render: function() {
-    return <div>Under päronträdet!</div>;
+    return (
+        <div>
+            <div>Under päronträdet</div>
+            <RouteHandler {...this.props} />
+        </div>
+    );
   }
 });
-
-module.exports = BlogApp;

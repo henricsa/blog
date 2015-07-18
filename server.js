@@ -1,25 +1,26 @@
 'use strict';
 
-require('babel/register');
+require('babel-core/register');
 
-var koa = require('koa'),
-    views = require('koa-views'),
-    serve = require('koa-static'),
-    React = require('react'),
-    BlogApp = React.createFactory(require('./app/components/BlogApp')),
-    config = require('./utils').getEnvironemtConfig();
+var koa = require('koa');
+var serve = require('koa-static');
+var logger = require('koa-logger');
+var route = require('koa-route');
+var session = require('koa-session');
+var bodyParser = require('koa-bodyparser');
+var routes = require('./app/server/routes');
+var views = require('./app/server/views')();
+var passport = require('./app/server/auth')();
 
 var app = koa();
-app.use(views('views', {
-  map: {
-    html: 'ejs'
-  }
-}));
-app.use(serve(__dirname + '/public'));
-
-app.use(function *(){
-    var reactHtml = React.renderToString(BlogApp({}));
-    yield this.render('index', {reactOutput: reactHtml});
-});
-
-app.listen(3000);
+app.keys = ['some secret hurr'];
+app.use(logger())
+   .use(serve(__dirname + '/public'))
+   .use(views)
+   .use(bodyParser())
+   .use(session(app))
+   .use(passport.initialize())
+   .use(passport.session())
+   .use(route.get('/api/isLoggedIn', routes.isLoggedIn))
+   .use(route.all('*', routes.blogList))
+   .listen(3000);

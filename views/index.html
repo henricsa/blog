@@ -5,7 +5,11 @@
     <title>Under päronträdet</title>
   </head>
   <body>
-    <div id="react-main-mount"><%- reactOutput %></div>
+    <div id="react-main-mount"><%- blogHtml %></div>
+    <script>
+        var blog = {};
+        blog.posts = <%- blogPosts %>
+    </script>
     <script src="/main.js"></script>
   </body>
 </html>
