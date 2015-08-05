@@ -1,5 +1,3 @@
-'use strict';
-
 var React = require('react');
 
 module.exports = React.createClass({
@@ -12,17 +10,14 @@ module.exports = React.createClass({
     handlePasswordChange: function(event) {
         this.setState({password: event.target.value});
     },
-    login: function() {
-
-    },
     render: function() {
         return (
-            <form role="form">
+            <form role="form" action="/api/login" method="POST">
                 <div>
-                    <input type="text" value={this.state.username} onChange={this.handleUsernameChange} />
-                    <input type="password" value={this.state.password} onChange={this.handlePasswordChange} />
+                    <input type="text" value={this.state.username} name="username" onChange={this.handleUsernameChange} />
+                    <input type="password" value={this.state.password} name="password" onChange={this.handlePasswordChange} />
                 </div>
-                <button type="submit" onClick={this.login}>Submit</button>
+                <button type="submit">Logga in</button>
             </form>
         );
     }

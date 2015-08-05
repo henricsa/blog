@@ -1,5 +1,3 @@
-'use strict';
-
 var views = require('koa-views');
 
 module.exports = function () {

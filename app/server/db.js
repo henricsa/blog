@@ -1,5 +1,3 @@
-'use strict';
-
 var config = require('./config').getEnvConfig(),
     monk = require('monk'),
     wrap = require('co-monk');

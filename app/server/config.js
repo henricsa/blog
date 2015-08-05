@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = {
     getEnvConfig: function () {
         return this[process.env.NODE_ENV || 'development'];

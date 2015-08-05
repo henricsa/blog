@@ -8,7 +8,13 @@ module.exports = {
         loaders: [
             {
                 test: /\.js$/,
-                loader: 'babel-loader'
+                loader: 'babel',
+                exclude: /node_modules/
+            },
+            {
+                test: /\.js$/,
+                loader: 'eslint',
+                exclude: /node_modules/
             }
         ]
     }
