@@ -1,3 +1,4 @@
+import React from 'react';
 import {Route, DefaultRoute} from 'react-router';
 var Blog = require('./Blog');
 var BlogList = require('./BlogList');

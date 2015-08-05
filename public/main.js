@@ -24063,7 +24063,7 @@
 	    new_err.response = res;
 	    new_err.status = res.status;
 
-	    self.callback(err || new_err, res);
+	    self.callback(new_err, res);
 	  });
 	}
 
@@ -24536,7 +24536,8 @@
 	  // body
 	  if ('GET' != this.method && 'HEAD' != this.method && 'string' != typeof data && !isHost(data)) {
 	    // serialize stuff
-	    var serialize = request.serialize[this.getHeader('Content-Type')];
+	    var contentType = this.getHeader('Content-Type');
+	    var serialize = request.serialize[contentType ? contentType.split(';')[0] : ''];
 	    if (serialize) data = serialize(data);
 	  }
 
@@ -24551,6 +24552,20 @@
 	  xhr.send(data);
 	  return this;
 	};
+
+	/**
+	 * Faux promise support
+	 *
+	 * @param {Function} fulfill
+	 * @param {Function} reject
+	 * @return {Request}
+	 */
+
+	Request.prototype.then = function (fulfill, reject) {
+	  return this.end(function(err, res) {
+	    err ? reject(err) : fulfill(res);
+	  });
+	}
 
 	/**
 	 * Expose `Request`.
@@ -24916,12 +24931,12 @@
 	  _reactRouter.Route,
 	  { handler: Blog },
 	  React.createElement(_reactRouter.DefaultRoute, { handler: BlogList }),
-	  React.createElement(_reactRouter.Route, { path: "login", handler: Login }),
+	  React.createElement(_reactRouter.Route, { path: 'login', handler: Login }),
 	  React.createElement(
 	    _reactRouter.Route,
-	    { path: "admin" },
+	    { path: 'admin' },
 	    React.createElement(_reactRouter.DefaultRoute, { handler: Admin }),
-	    React.createElement(_reactRouter.Route, { path: "post", handler: AdminPost })
+	    React.createElement(_reactRouter.Route, { path: 'post', handler: AdminPost })
 	  )
 	);
 
@@ -24948,16 +24963,16 @@
 	    render: function render() {
 	        return React.createElement(
 	            'form',
-	            { role: "form", action: "/api/login", method: "POST" },
+	            { role: 'form', action: '/api/login', method: 'POST' },
 	            React.createElement(
 	                'div',
 	                null,
-	                React.createElement('input', { type: "text", value: this.state.username, name: "username", onChange: this.handleUsernameChange }),
-	                React.createElement('input', { type: "password", value: this.state.password, name: "password", onChange: this.handlePasswordChange })
+	                React.createElement('input', { type: 'text', value: this.state.username, name: 'username', onChange: this.handleUsernameChange }),
+	                React.createElement('input', { type: 'password', value: this.state.password, name: 'password', onChange: this.handlePasswordChange })
 	            ),
 	            React.createElement(
 	                'button',
-	                { type: "submit" },
+	                { type: 'submit' },
 	                'Logga in'
 	            )
 	        );
@@ -35423,7 +35438,7 @@
 	                { key: post.title },
 	                _react2['default'].createElement(
 	                    _reactRouter.Link,
-	                    { to: "/admin" },
+	                    { to: '/admin' },
 	                    post.title
 	                )
 	            );
@@ -35438,7 +35453,7 @@
 	            ),
 	            _react2['default'].createElement(
 	                _reactRouter.Link,
-	                { to: "/admin/post" },
+	                { to: '/admin/post' },
 	                'Ny post'
 	            ),
 	            _react2['default'].createElement(
@@ -35494,16 +35509,16 @@
 	            ),
 	            _react2['default'].createElement(
 	                'form',
-	                { role: "form", onSubmit: this.handleSubmit },
+	                { role: 'form', onSubmit: this.handleSubmit },
 	                _react2['default'].createElement(
 	                    'div',
 	                    null,
-	                    _react2['default'].createElement('input', { type: "text", value: this.state.title, onChange: this.handleTitleChange }),
+	                    _react2['default'].createElement('input', { type: 'text', value: this.state.title, onChange: this.handleTitleChange }),
 	                    _react2['default'].createElement('textarea', { value: this.state.body, onChange: this.handleBodyChange })
 	                ),
 	                _react2['default'].createElement(
 	                    'button',
-	                    { type: "submit" },
+	                    { type: 'submit' },
 	                    'Skapa'
 	                )
 	            )
