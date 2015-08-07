@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "watch": "webpack --watch --progress",
-    "build": "webpack -p --progress",
+    "build": "webpack --p --progress",
     "start-dev": "NODE_ENV=development nodemon server.js",
     "start": "NODE_ENV=production pm2 server.js"
   },

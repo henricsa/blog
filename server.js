@@ -5,8 +5,8 @@ const logger = require('koa-logger');
 const serve = require('koa-static');
 const bodyParser = require('koa-bodyparser');
 const favicon = require('koa-favicon');
-const router = require('koa-router')();
 const passport = require('koa-passport');
+const router = require('koa-router')();
 
 const app = koa();
 app.use(logger());
