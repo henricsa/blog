@@ -4,6 +4,7 @@
   "description": "Blog",
   "main": "app.js",
   "scripts": {
+    "test": "mocha --compilers js:babel-core/register",
     "watch": "webpack --watch --progress",
     "build": "webpack --p --progress",
     "start-dev": "NODE_ENV=development nodemon server.js",
@@ -48,7 +49,9 @@
     "eslint-config-airbnb": "0.0.7",
     "eslint-loader": "^0.14.2",
     "eslint-plugin-react": "^3.2.0",
+    "mocha": "^2.2.5",
     "node-libs-browser": "^0.5.2",
+    "supertest": "^1.0.1",
     "webpack": "^1.10.1"
   }
 }

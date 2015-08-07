@@ -8,7 +8,7 @@ const favicon = require('koa-favicon');
 const passport = require('koa-passport');
 const router = require('koa-router')();
 
-const app = koa();
+const app = module.exports = koa();
 app.use(logger());
 app.use(serve(__dirname + '/public'));
 app.use(favicon());
@@ -23,4 +23,7 @@ require('./app/server/controllers/post')(router);
 require('./app/server/controllers/render')(router);
 
 app.use(router.routes());
-app.listen(3000);
+
+if (!module.parent) {
+    app.listen(3000);
+}

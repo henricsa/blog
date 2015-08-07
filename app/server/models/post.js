@@ -4,12 +4,17 @@ function* create(post) {
     yield Post.insert(post);
 }
 
-function* getAll() {
-    const post = yield Post.find({});
+function* get(query) {
+    const post = yield Post.find(query);
     return post;
+}
+
+function* remove(query) {
+    yield Post.remove(query);
 }
 
 module.exports = {
     create,
-    getAll,
+    get,
+    remove,
 };
