@@ -4,12 +4,14 @@ var koa = require('koa');
 var logger = require('koa-logger');
 var serve = require('koa-static');
 var bodyParser = require('koa-bodyparser');
+var favicon = require('koa-favicon');
 var router = require('koa-router')();
 var passport = require('koa-passport');
 
 var app = koa();
 app.use(logger());
 app.use(serve(__dirname + '/public'));
+app.use(favicon());
 app.use(bodyParser());
 
 require('./app/server/middlewares/views')(app);
