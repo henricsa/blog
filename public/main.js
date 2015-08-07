@@ -56,7 +56,10 @@
 
 	var _reactRouter2 = _interopRequireDefault(_reactRouter);
 
-	var http = __webpack_require__(196);
+	var _superAgent = __webpack_require__(196);
+
+	var _superAgent2 = _interopRequireDefault(_superAgent);
+
 	var routes = __webpack_require__(199);
 
 	var mountNode = document.getElementById('react-main-mount');
@@ -72,7 +75,7 @@
 	    });
 
 	    if (authenticateRoutes.length > 0) {
-	        http.get('/api/isLoggedIn').end(function (err) {
+	        _superAgent2['default'].get('/api/isLoggedIn').end(function (err) {
 	            if (err) {
 	                _this.transitionTo('/login');
 	            } else {
@@ -24919,26 +24922,51 @@
 
 	'use strict';
 
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
 	var _reactRouter = __webpack_require__(157);
 
-	var Blog = __webpack_require__(201);
-	var BlogList = __webpack_require__(202);
-	var Login = __webpack_require__(200);
-	var Admin = __webpack_require__(265);
-	var AdminPost = __webpack_require__(266);
+	var _componentsApp = __webpack_require__(200);
 
-	module.exports = React.createElement(
-	  _reactRouter.Route,
-	  { handler: Blog },
-	  React.createElement(_reactRouter.DefaultRoute, { handler: BlogList }),
-	  React.createElement(_reactRouter.Route, { path: 'login', handler: Login }),
-	  React.createElement(
+	var _componentsApp2 = _interopRequireDefault(_componentsApp);
+
+	var _componentsPostList = __webpack_require__(201);
+
+	var _componentsPostList2 = _interopRequireDefault(_componentsPostList);
+
+	var _componentsLogin = __webpack_require__(264);
+
+	var _componentsLogin2 = _interopRequireDefault(_componentsLogin);
+
+	var _componentsAdmin = __webpack_require__(265);
+
+	var _componentsAdmin2 = _interopRequireDefault(_componentsAdmin);
+
+	var _componentsCreatePost = __webpack_require__(266);
+
+	var _componentsCreatePost2 = _interopRequireDefault(_componentsCreatePost);
+
+	exports['default'] = _react2['default'].createElement(
 	    _reactRouter.Route,
-	    { path: 'admin' },
-	    React.createElement(_reactRouter.DefaultRoute, { handler: Admin }),
-	    React.createElement(_reactRouter.Route, { path: 'post', handler: AdminPost })
-	  )
+	    { handler: _componentsApp2['default'] },
+	    _react2['default'].createElement(_reactRouter.DefaultRoute, { handler: _componentsPostList2['default'] }),
+	    _react2['default'].createElement(_reactRouter.Route, { handler: _componentsLogin2['default'], path: 'login' }),
+	    _react2['default'].createElement(
+	        _reactRouter.Route,
+	        { path: 'admin' },
+	        _react2['default'].createElement(_reactRouter.DefaultRoute, { handler: _componentsAdmin2['default'] }),
+	        _react2['default'].createElement(_reactRouter.Route, { handler: _componentsCreatePost2['default'], path: 'post' })
+	    )
 	);
+	module.exports = exports['default'];
 
 /***/ },
 /* 200 */
@@ -24946,38 +24974,35 @@
 
 	'use strict';
 
-	var React = __webpack_require__(1);
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
 
-	module.exports = React.createClass({
-	    displayName: 'exports',
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	    getInitialState: function getInitialState() {
-	        return { username: '', password: '' };
-	    },
-	    handleUsernameChange: function handleUsernameChange(event) {
-	        this.setState({ username: event.target.value });
-	    },
-	    handlePasswordChange: function handlePasswordChange(event) {
-	        this.setState({ password: event.target.value });
-	    },
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(157);
+
+	exports['default'] = _react2['default'].createClass({
+	    displayName: 'App',
+
 	    render: function render() {
-	        return React.createElement(
-	            'form',
-	            { role: 'form', action: '/api/login', method: 'POST' },
-	            React.createElement(
+	        return _react2['default'].createElement(
+	            'div',
+	            null,
+	            _react2['default'].createElement(
 	                'div',
 	                null,
-	                React.createElement('input', { type: 'text', value: this.state.username, name: 'username', onChange: this.handleUsernameChange }),
-	                React.createElement('input', { type: 'password', value: this.state.password, name: 'password', onChange: this.handlePasswordChange })
+	                'Under päronträdet'
 	            ),
-	            React.createElement(
-	                'button',
-	                { type: 'submit' },
-	                'Logga in'
-	            )
+	            _react2['default'].createElement(_reactRouter.RouteHandler, this.props)
 	        );
 	    }
 	});
+	module.exports = exports['default'];
 
 /***/ },
 /* 201 */
@@ -24985,26 +25010,56 @@
 
 	'use strict';
 
-	var React = __webpack_require__(1);
-	var Router = __webpack_require__(157);
-	var RouteHandler = Router.RouteHandler;
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
 
-	module.exports = React.createClass({
-	    displayName: 'exports',
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _remarkable = __webpack_require__(202);
+
+	var _remarkable2 = _interopRequireDefault(_remarkable);
+
+	var markdown = new _remarkable2['default']();
+
+	exports['default'] = _react2['default'].createClass({
+	    displayName: 'PostList',
+
+	    propTypes: {
+	        posts: _react2['default'].PropTypes.array.isRequired
+	    },
+	    getInitialState: function getInitialState() {
+	        return {
+	            posts: this.props.posts
+	        };
+	    },
 	    render: function render() {
-	        return React.createElement(
+	        var createPost = function createPost(post, index) {
+	            return _react2['default'].createElement(
+	                'div',
+	                { key: index },
+	                _react2['default'].createElement(
+	                    'h2',
+	                    null,
+	                    post.title
+	                ),
+	                _react2['default'].createElement('div', { dangerouslySetInnerHTML: {
+	                        __html: markdown.render(post.body)
+	                    } })
+	            );
+	        };
+	        return _react2['default'].createElement(
 	            'div',
 	            null,
-	            React.createElement(
-	                'div',
-	                null,
-	                'Under päronträdet'
-	            ),
-	            React.createElement(RouteHandler, this.props)
+	            this.state.posts.map(createPost)
 	        );
 	    }
 	});
+	module.exports = exports['default'];
 
 /***/ },
 /* 202 */
@@ -25012,55 +25067,12 @@
 
 	'use strict';
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _remarkable = __webpack_require__(203);
+	module.exports = __webpack_require__(203);
 
-	var _remarkable2 = _interopRequireDefault(_remarkable);
-
-	var React = __webpack_require__(1);
-
-	var markdown = new _remarkable2['default']();
-
-	module.exports = React.createClass({
-	    displayName: 'exports',
-
-	    getInitialState: function getInitialState() {
-	        return { posts: this.props.posts };
-	    },
-	    render: function render() {
-	        var createPost = function createPost(post, index) {
-	            return React.createElement(
-	                'div',
-	                { key: index },
-	                React.createElement(
-	                    'h2',
-	                    null,
-	                    post.title
-	                ),
-	                React.createElement('div', { dangerouslySetInnerHTML: { __html: markdown.render(post.body) } })
-	            );
-	        };
-	        return React.createElement(
-	            'div',
-	            null,
-	            this.state.posts.map(createPost)
-	        );
-	    }
-	});
 
 /***/ },
 /* 203 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-
-	module.exports = __webpack_require__(204);
-
-
-/***/ },
-/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25069,21 +25081,21 @@
 	 * Local dependencies
 	 */
 
-	var assign       = __webpack_require__(206).assign;
-	var Renderer     = __webpack_require__(208);
-	var ParserCore   = __webpack_require__(210);
-	var ParserBlock  = __webpack_require__(228);
-	var ParserInline = __webpack_require__(243);
-	var Ruler        = __webpack_require__(205);
+	var assign       = __webpack_require__(205).assign;
+	var Renderer     = __webpack_require__(207);
+	var ParserCore   = __webpack_require__(209);
+	var ParserBlock  = __webpack_require__(227);
+	var ParserInline = __webpack_require__(242);
+	var Ruler        = __webpack_require__(204);
 
 	/**
 	 * Preset configs
 	 */
 
 	var config = {
-	  'default':    __webpack_require__(262),
-	  'full':       __webpack_require__(263),
-	  'commonmark': __webpack_require__(264)
+	  'default':    __webpack_require__(261),
+	  'full':       __webpack_require__(262),
+	  'commonmark': __webpack_require__(263)
 	};
 
 	/**
@@ -25257,11 +25269,11 @@
 	 * rendering.
 	 */
 
-	module.exports.utils = __webpack_require__(206);
+	module.exports.utils = __webpack_require__(205);
 
 
 /***/ },
-/* 205 */
+/* 204 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -25540,7 +25552,7 @@
 
 
 /***/ },
-/* 206 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25627,7 +25639,7 @@
 
 	var NAMED_ENTITY_RE   = /&([a-z#][a-z0-9]{1,31});/gi;
 	var DIGITAL_ENTITY_TEST_RE = /^#((?:x[a-f0-9]{1,8}|[0-9]{1,8}))/i;
-	var entities = __webpack_require__(207);
+	var entities = __webpack_require__(206);
 
 	function replaceEntityPattern(match, name) {
 	  var code = 0;
@@ -25687,7 +25699,7 @@
 
 
 /***/ },
-/* 207 */
+/* 206 */
 /***/ function(module, exports) {
 
 	// List of valid entities
@@ -27827,7 +27839,7 @@
 
 
 /***/ },
-/* 208 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27836,8 +27848,8 @@
 	 * Local dependencies
 	 */
 
-	var utils = __webpack_require__(206);
-	var rules = __webpack_require__(209);
+	var utils = __webpack_require__(205);
+	var rules = __webpack_require__(208);
 
 	/**
 	 * Expose `Renderer`
@@ -27908,7 +27920,7 @@
 
 
 /***/ },
-/* 209 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27917,10 +27929,10 @@
 	 * Local dependencies
 	 */
 
-	var has             = __webpack_require__(206).has;
-	var unescapeMd      = __webpack_require__(206).unescapeMd;
-	var replaceEntities = __webpack_require__(206).replaceEntities;
-	var escapeHtml      = __webpack_require__(206).escapeHtml;
+	var has             = __webpack_require__(205).has;
+	var unescapeMd      = __webpack_require__(205).unescapeMd;
+	var replaceEntities = __webpack_require__(205).replaceEntities;
+	var escapeHtml      = __webpack_require__(205).escapeHtml;
 
 	/**
 	 * Renderer rules cache
@@ -28340,7 +28352,7 @@
 
 
 /***/ },
-/* 210 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28349,22 +28361,22 @@
 	 * Local dependencies
 	 */
 
-	var Ruler = __webpack_require__(205);
+	var Ruler = __webpack_require__(204);
 
 	/**
 	 * Core parser `rules`
 	 */
 
 	var _rules = [
-	  [ 'block',          __webpack_require__(212)          ],
-	  [ 'abbr',           __webpack_require__(213)           ],
-	  [ 'references',     __webpack_require__(216)     ],
-	  [ 'inline',         __webpack_require__(221)         ],
-	  [ 'footnote_tail',  __webpack_require__(211)  ],
-	  [ 'abbr2',          __webpack_require__(222)          ],
-	  [ 'replacements',   __webpack_require__(223)   ],
-	  [ 'smartquotes',    __webpack_require__(224)    ],
-	  [ 'linkify',        __webpack_require__(225)        ]
+	  [ 'block',          __webpack_require__(211)          ],
+	  [ 'abbr',           __webpack_require__(212)           ],
+	  [ 'references',     __webpack_require__(215)     ],
+	  [ 'inline',         __webpack_require__(220)         ],
+	  [ 'footnote_tail',  __webpack_require__(210)  ],
+	  [ 'abbr2',          __webpack_require__(221)          ],
+	  [ 'replacements',   __webpack_require__(222)   ],
+	  [ 'smartquotes',    __webpack_require__(223)    ],
+	  [ 'linkify',        __webpack_require__(224)        ]
 	];
 
 	/**
@@ -28404,7 +28416,7 @@
 
 
 /***/ },
-/* 211 */
+/* 210 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -28505,7 +28517,7 @@
 
 
 /***/ },
-/* 212 */
+/* 211 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -28528,7 +28540,7 @@
 
 
 /***/ },
-/* 213 */
+/* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Parse abbreviation definitions, i.e. `*[abbr]: description`
@@ -28537,8 +28549,8 @@
 	'use strict';
 
 
-	var StateInline    = __webpack_require__(214);
-	var parseLinkLabel = __webpack_require__(215);
+	var StateInline    = __webpack_require__(213);
+	var parseLinkLabel = __webpack_require__(214);
 
 
 	function parseAbbr(str, parserInline, options, env) {
@@ -28604,7 +28616,7 @@
 
 
 /***/ },
-/* 214 */
+/* 213 */
 /***/ function(module, exports) {
 
 	// Inline parser state
@@ -28692,7 +28704,7 @@
 
 
 /***/ },
-/* 215 */
+/* 214 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -28757,17 +28769,17 @@
 
 
 /***/ },
-/* 216 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 
-	var StateInline          = __webpack_require__(214);
-	var parseLinkLabel       = __webpack_require__(215);
-	var parseLinkDestination = __webpack_require__(217);
-	var parseLinkTitle       = __webpack_require__(219);
-	var normalizeReference   = __webpack_require__(220);
+	var StateInline          = __webpack_require__(213);
+	var parseLinkLabel       = __webpack_require__(214);
+	var parseLinkDestination = __webpack_require__(216);
+	var parseLinkTitle       = __webpack_require__(218);
+	var normalizeReference   = __webpack_require__(219);
 
 
 	function parseReference(str, parser, options, env) {
@@ -28861,14 +28873,14 @@
 
 
 /***/ },
-/* 217 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 
-	var normalizeLink = __webpack_require__(218);
-	var unescapeMd    = __webpack_require__(206).unescapeMd;
+	var normalizeLink = __webpack_require__(217);
+	var unescapeMd    = __webpack_require__(205).unescapeMd;
 
 	/**
 	 * Parse link destination
@@ -28951,12 +28963,12 @@
 
 
 /***/ },
-/* 218 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var replaceEntities = __webpack_require__(206).replaceEntities;
+	var replaceEntities = __webpack_require__(205).replaceEntities;
 
 	module.exports = function normalizeLink(url) {
 	  var normalized = replaceEntities(url);
@@ -28970,13 +28982,13 @@
 
 
 /***/ },
-/* 219 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 
-	var unescapeMd = __webpack_require__(206).unescapeMd;
+	var unescapeMd = __webpack_require__(205).unescapeMd;
 
 	/**
 	 * Parse link title
@@ -29022,7 +29034,7 @@
 
 
 /***/ },
-/* 220 */
+/* 219 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -29036,7 +29048,7 @@
 
 
 /***/ },
-/* 221 */
+/* 220 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -29055,7 +29067,7 @@
 
 
 /***/ },
-/* 222 */
+/* 221 */
 /***/ function(module, exports) {
 
 	// Enclose abbreviations in <abbr> tags
@@ -29149,7 +29161,7 @@
 
 
 /***/ },
-/* 223 */
+/* 222 */
 /***/ function(module, exports) {
 
 	// Simple typographical replacements
@@ -29219,7 +29231,7 @@
 
 
 /***/ },
-/* 224 */
+/* 223 */
 /***/ function(module, exports) {
 
 	// Convert straight quotation marks to typographic ones
@@ -29338,7 +29350,7 @@
 
 
 /***/ },
-/* 225 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Replace link-like texts with link nodes.
@@ -29348,7 +29360,7 @@
 	'use strict';
 
 
-	var Autolinker = __webpack_require__(226);
+	var Autolinker = __webpack_require__(225);
 
 
 	var LINK_SCAN_RE = /www|@|\:\/\//;
@@ -29505,11 +29517,11 @@
 
 
 /***/ },
-/* 226 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (root, factory) {
-	  if (root && "function" === 'function' && __webpack_require__(227)) {
+	  if (root && "function" === 'function' && __webpack_require__(226)) {
 	    // AMD. Register as an anonymous module unless amdModuleId is set
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function () {
 	      return (root['Autolinker'] = factory());
@@ -31834,7 +31846,7 @@
 
 
 /***/ },
-/* 227 */
+/* 226 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {module.exports = __webpack_amd_options__;
@@ -31842,7 +31854,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ },
-/* 228 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31851,26 +31863,26 @@
 	 * Local dependencies
 	 */
 
-	var Ruler      = __webpack_require__(205);
-	var StateBlock = __webpack_require__(230);
+	var Ruler      = __webpack_require__(204);
+	var StateBlock = __webpack_require__(229);
 
 	/**
 	 * Parser rules
 	 */
 
 	var _rules = [
-	  [ 'code',       __webpack_require__(231) ],
-	  [ 'fences',     __webpack_require__(232),     [ 'paragraph', 'blockquote', 'list' ] ],
-	  [ 'blockquote', __webpack_require__(233), [ 'paragraph', 'blockquote', 'list' ] ],
-	  [ 'hr',         __webpack_require__(234),         [ 'paragraph', 'blockquote', 'list' ] ],
-	  [ 'list',       __webpack_require__(235),       [ 'paragraph', 'blockquote' ] ],
-	  [ 'footnote',   __webpack_require__(229),   [ 'paragraph' ] ],
-	  [ 'heading',    __webpack_require__(236),    [ 'paragraph', 'blockquote' ] ],
-	  [ 'lheading',   __webpack_require__(237) ],
-	  [ 'htmlblock',  __webpack_require__(238),  [ 'paragraph', 'blockquote' ] ],
-	  [ 'table',      __webpack_require__(240),      [ 'paragraph' ] ],
-	  [ 'deflist',    __webpack_require__(241),    [ 'paragraph' ] ],
-	  [ 'paragraph',  __webpack_require__(242) ]
+	  [ 'code',       __webpack_require__(230) ],
+	  [ 'fences',     __webpack_require__(231),     [ 'paragraph', 'blockquote', 'list' ] ],
+	  [ 'blockquote', __webpack_require__(232), [ 'paragraph', 'blockquote', 'list' ] ],
+	  [ 'hr',         __webpack_require__(233),         [ 'paragraph', 'blockquote', 'list' ] ],
+	  [ 'list',       __webpack_require__(234),       [ 'paragraph', 'blockquote' ] ],
+	  [ 'footnote',   __webpack_require__(228),   [ 'paragraph' ] ],
+	  [ 'heading',    __webpack_require__(235),    [ 'paragraph', 'blockquote' ] ],
+	  [ 'lheading',   __webpack_require__(236) ],
+	  [ 'htmlblock',  __webpack_require__(237),  [ 'paragraph', 'blockquote' ] ],
+	  [ 'table',      __webpack_require__(239),      [ 'paragraph' ] ],
+	  [ 'deflist',    __webpack_require__(240),    [ 'paragraph' ] ],
+	  [ 'paragraph',  __webpack_require__(241) ]
 	];
 
 	/**
@@ -32003,7 +32015,7 @@
 
 
 /***/ },
-/* 229 */
+/* 228 */
 /***/ function(module, exports) {
 
 	// Process footnote reference list
@@ -32076,7 +32088,7 @@
 
 
 /***/ },
-/* 230 */
+/* 229 */
 /***/ function(module, exports) {
 
 	// Parser state class
@@ -32240,7 +32252,7 @@
 
 
 /***/ },
-/* 231 */
+/* 230 */
 /***/ function(module, exports) {
 
 	// Code block (4 spaces padded)
@@ -32282,7 +32294,7 @@
 
 
 /***/ },
-/* 232 */
+/* 231 */
 /***/ function(module, exports) {
 
 	// fences (``` lang, ~~~ lang)
@@ -32379,7 +32391,7 @@
 
 
 /***/ },
-/* 233 */
+/* 232 */
 /***/ function(module, exports) {
 
 	// Block quotes
@@ -32518,7 +32530,7 @@
 
 
 /***/ },
-/* 234 */
+/* 233 */
 /***/ function(module, exports) {
 
 	// Horizontal rule
@@ -32569,7 +32581,7 @@
 
 
 /***/ },
-/* 235 */
+/* 234 */
 /***/ function(module, exports) {
 
 	// Lists
@@ -32841,7 +32853,7 @@
 
 
 /***/ },
-/* 236 */
+/* 235 */
 /***/ function(module, exports) {
 
 	// heading (#, ##, ...)
@@ -32905,7 +32917,7 @@
 
 
 /***/ },
-/* 237 */
+/* 236 */
 /***/ function(module, exports) {
 
 	// lheading (---, ===)
@@ -32966,7 +32978,7 @@
 
 
 /***/ },
-/* 238 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// HTML block
@@ -32974,7 +32986,7 @@
 	'use strict';
 
 
-	var block_names = __webpack_require__(239);
+	var block_names = __webpack_require__(238);
 
 
 	var HTML_TAG_OPEN_RE = /^<([a-zA-Z]{1,15})[\s\/>]/;
@@ -33046,7 +33058,7 @@
 
 
 /***/ },
-/* 239 */
+/* 238 */
 /***/ function(module, exports) {
 
 	// List of valid html blocks names, accorting to commonmark spec
@@ -33114,7 +33126,7 @@
 
 
 /***/ },
-/* 240 */
+/* 239 */
 /***/ function(module, exports) {
 
 	// GFM table, non-standard
@@ -33254,7 +33266,7 @@
 
 
 /***/ },
-/* 241 */
+/* 240 */
 /***/ function(module, exports) {
 
 	// Definition lists
@@ -33467,7 +33479,7 @@
 
 
 /***/ },
-/* 242 */
+/* 241 */
 /***/ function(module, exports) {
 
 	// Paragraph
@@ -33532,7 +33544,7 @@
 
 
 /***/ },
-/* 243 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33541,31 +33553,31 @@
 	 * Local dependencies
 	 */
 
-	var Ruler       = __webpack_require__(205);
-	var StateInline = __webpack_require__(214);
-	var utils       = __webpack_require__(206);
+	var Ruler       = __webpack_require__(204);
+	var StateInline = __webpack_require__(213);
+	var utils       = __webpack_require__(205);
 
 	/**
 	 * Inline Parser `rules`
 	 */
 
 	var _rules = [
-	  [ 'text',            __webpack_require__(244) ],
-	  [ 'newline',         __webpack_require__(245) ],
-	  [ 'escape',          __webpack_require__(246) ],
-	  [ 'backticks',       __webpack_require__(247) ],
-	  [ 'del',             __webpack_require__(248) ],
-	  [ 'ins',             __webpack_require__(249) ],
-	  [ 'mark',            __webpack_require__(250) ],
-	  [ 'emphasis',        __webpack_require__(251) ],
-	  [ 'sub',             __webpack_require__(252) ],
-	  [ 'sup',             __webpack_require__(253) ],
-	  [ 'links',           __webpack_require__(254) ],
-	  [ 'footnote_inline', __webpack_require__(255) ],
-	  [ 'footnote_ref',    __webpack_require__(256) ],
-	  [ 'autolink',        __webpack_require__(257) ],
-	  [ 'htmltag',         __webpack_require__(259) ],
-	  [ 'entity',          __webpack_require__(261) ]
+	  [ 'text',            __webpack_require__(243) ],
+	  [ 'newline',         __webpack_require__(244) ],
+	  [ 'escape',          __webpack_require__(245) ],
+	  [ 'backticks',       __webpack_require__(246) ],
+	  [ 'del',             __webpack_require__(247) ],
+	  [ 'ins',             __webpack_require__(248) ],
+	  [ 'mark',            __webpack_require__(249) ],
+	  [ 'emphasis',        __webpack_require__(250) ],
+	  [ 'sub',             __webpack_require__(251) ],
+	  [ 'sup',             __webpack_require__(252) ],
+	  [ 'links',           __webpack_require__(253) ],
+	  [ 'footnote_inline', __webpack_require__(254) ],
+	  [ 'footnote_ref',    __webpack_require__(255) ],
+	  [ 'autolink',        __webpack_require__(256) ],
+	  [ 'htmltag',         __webpack_require__(258) ],
+	  [ 'entity',          __webpack_require__(260) ]
 	];
 
 	/**
@@ -33699,7 +33711,7 @@
 
 
 /***/ },
-/* 244 */
+/* 243 */
 /***/ function(module, exports) {
 
 	// Skip text characters for text token, place those to pending buffer
@@ -33758,7 +33770,7 @@
 
 
 /***/ },
-/* 245 */
+/* 244 */
 /***/ function(module, exports) {
 
 	// Proceess '\n'
@@ -33812,7 +33824,7 @@
 
 
 /***/ },
-/* 246 */
+/* 245 */
 /***/ function(module, exports) {
 
 	// Proceess escaped chars and hardbreaks
@@ -33867,7 +33879,7 @@
 
 
 /***/ },
-/* 247 */
+/* 246 */
 /***/ function(module, exports) {
 
 	// Parse backticks
@@ -33919,7 +33931,7 @@
 
 
 /***/ },
-/* 248 */
+/* 247 */
 /***/ function(module, exports) {
 
 	// Process ~~deleted text~~
@@ -34009,7 +34021,7 @@
 
 
 /***/ },
-/* 249 */
+/* 248 */
 /***/ function(module, exports) {
 
 	// Process ++inserted text++
@@ -34099,7 +34111,7 @@
 
 
 /***/ },
-/* 250 */
+/* 249 */
 /***/ function(module, exports) {
 
 	// Process ==highlighted text==
@@ -34189,7 +34201,7 @@
 
 
 /***/ },
-/* 251 */
+/* 250 */
 /***/ function(module, exports) {
 
 	// Process *this* and _that_
@@ -34344,7 +34356,7 @@
 
 
 /***/ },
-/* 252 */
+/* 251 */
 /***/ function(module, exports) {
 
 	// Process ~subscript~
@@ -34408,7 +34420,7 @@
 
 
 /***/ },
-/* 253 */
+/* 252 */
 /***/ function(module, exports) {
 
 	// Process ^superscript^
@@ -34472,17 +34484,17 @@
 
 
 /***/ },
-/* 254 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Process [links](<to> "stuff")
 
 	'use strict';
 
-	var parseLinkLabel       = __webpack_require__(215);
-	var parseLinkDestination = __webpack_require__(217);
-	var parseLinkTitle       = __webpack_require__(219);
-	var normalizeReference   = __webpack_require__(220);
+	var parseLinkLabel       = __webpack_require__(214);
+	var parseLinkDestination = __webpack_require__(216);
+	var parseLinkTitle       = __webpack_require__(218);
+	var normalizeReference   = __webpack_require__(219);
 
 
 	module.exports = function links(state, silent) {
@@ -34643,14 +34655,14 @@
 
 
 /***/ },
-/* 255 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Process inline footnotes (^[...])
 
 	'use strict';
 
-	var parseLinkLabel = __webpack_require__(215);
+	var parseLinkLabel = __webpack_require__(214);
 
 
 	module.exports = function footnote_inline(state, silent) {
@@ -34702,7 +34714,7 @@
 
 
 /***/ },
-/* 256 */
+/* 255 */
 /***/ function(module, exports) {
 
 	// Process footnote references ([^...])
@@ -34770,15 +34782,15 @@
 
 
 /***/ },
-/* 257 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Process autolinks '<protocol:...>'
 
 	'use strict';
 
-	var url_schemas   = __webpack_require__(258);
-	var normalizeLink = __webpack_require__(218);
+	var url_schemas   = __webpack_require__(257);
+	var normalizeLink = __webpack_require__(217);
 
 
 	/*eslint max-len:0*/
@@ -34854,7 +34866,7 @@
 
 
 /***/ },
-/* 258 */
+/* 257 */
 /***/ function(module, exports) {
 
 	// List of valid url schemas, accorting to commonmark spec
@@ -35032,7 +35044,7 @@
 
 
 /***/ },
-/* 259 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Process html tags
@@ -35040,7 +35052,7 @@
 	'use strict';
 
 
-	var HTML_TAG_RE = __webpack_require__(260).HTML_TAG_RE;
+	var HTML_TAG_RE = __webpack_require__(259).HTML_TAG_RE;
 
 
 	function isLetter(ch) {
@@ -35087,7 +35099,7 @@
 
 
 /***/ },
-/* 260 */
+/* 259 */
 /***/ function(module, exports) {
 
 	// Regexps to match html elements
@@ -35152,17 +35164,17 @@
 
 
 /***/ },
-/* 261 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Process html entity - &#123;, &#xAF;, &quot;, ...
 
 	'use strict';
 
-	var entities          = __webpack_require__(207);
-	var has               = __webpack_require__(206).has;
-	var isValidEntityCode = __webpack_require__(206).isValidEntityCode;
-	var fromCodePoint     = __webpack_require__(206).fromCodePoint;
+	var entities          = __webpack_require__(206);
+	var has               = __webpack_require__(205).has;
+	var isValidEntityCode = __webpack_require__(205).isValidEntityCode;
+	var fromCodePoint     = __webpack_require__(205).fromCodePoint;
 
 
 	var DIGITAL_RE = /^&#((?:x[a-f0-9]{1,8}|[0-9]{1,8}));/i;
@@ -35206,7 +35218,7 @@
 
 
 /***/ },
-/* 262 */
+/* 261 */
 /***/ function(module, exports) {
 
 	// Remarkable default options
@@ -35290,7 +35302,7 @@
 
 
 /***/ },
-/* 263 */
+/* 262 */
 /***/ function(module, exports) {
 
 	// Remarkable default options
@@ -35333,7 +35345,7 @@
 
 
 /***/ },
-/* 264 */
+/* 263 */
 /***/ function(module, exports) {
 
 	// Commonmark default options
@@ -35409,10 +35421,69 @@
 
 
 /***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	exports['default'] = _react2['default'].createClass({
+	    displayName: 'Login',
+
+	    getInitialState: function getInitialState() {
+	        return {
+	            username: '',
+	            password: ''
+	        };
+	    },
+	    handleUsernameChange: function handleUsernameChange(event) {
+	        this.setState({
+	            username: event.target.value
+	        });
+	    },
+	    handlePasswordChange: function handlePasswordChange(event) {
+	        this.setState({
+	            password: event.target.value
+	        });
+	    },
+	    render: function render() {
+	        return _react2['default'].createElement(
+	            'form',
+	            { action: '/api/login', method: 'POST', role: 'form' },
+	            _react2['default'].createElement(
+	                'div',
+	                null,
+	                _react2['default'].createElement('input', { name: 'username', onChange: this.handleUsernameChange, type: 'text', value: this.state.username }),
+	                _react2['default'].createElement('input', { name: 'password', onChange: this.handlePasswordChange, type: 'password', value: this.state.password })
+	            ),
+	            _react2['default'].createElement(
+	                'button',
+	                { type: 'submit' },
+	                'Logga in'
+	            )
+	        );
+	    }
+	});
+	module.exports = exports['default'];
+
+/***/ },
 /* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -35422,14 +35493,19 @@
 
 	var _reactRouter = __webpack_require__(157);
 
-	module.exports = _react2['default'].createClass({
-	    displayName: 'exports',
+	exports['default'] = _react2['default'].createClass({
+	    displayName: 'Admin',
 
+	    propTypes: {
+	        posts: _react2['default'].PropTypes.array.isRequired
+	    },
 	    statics: {
 	        authenticate: true
 	    },
 	    getInitialState: function getInitialState() {
-	        return { posts: this.props.posts };
+	        return {
+	            posts: this.props.posts
+	        };
 	    },
 	    render: function render() {
 	        var createItem = function createItem(post) {
@@ -35464,6 +35540,7 @@
 	        );
 	    }
 	});
+	module.exports = exports['default'];
 
 /***/ },
 /* 266 */
@@ -35471,32 +35548,48 @@
 
 	'use strict';
 
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var http = __webpack_require__(196);
+	var _superAgent = __webpack_require__(196);
 
-	module.exports = _react2['default'].createClass({
-	    displayName: 'exports',
+	var _superAgent2 = _interopRequireDefault(_superAgent);
+
+	exports['default'] = _react2['default'].createClass({
+	    displayName: 'CreatePost',
 
 	    statics: {
 	        authenticate: true
 	    },
 	    getInitialState: function getInitialState() {
-	        return { title: '', body: '' };
+	        return {
+	            title: '',
+	            body: ''
+	        };
 	    },
 	    handleTitleChange: function handleTitleChange(event) {
-	        this.setState({ title: event.target.value });
+	        this.setState({
+	            title: event.target.value
+	        });
 	    },
 	    handleBodyChange: function handleBodyChange(event) {
-	        this.setState({ body: event.target.value });
+	        this.setState({
+	            body: event.target.value
+	        });
 	    },
 	    handleSubmit: function handleSubmit(event) {
 	        event.preventDefault();
-	        http.post('/api/post').send({ title: this.state.title, body: this.state.body }).end();
+	        _superAgent2['default'].post('/api/post').send({
+	            title: this.state.title,
+	            body: this.state.body
+	        }).end();
 	    },
 	    render: function render() {
 	        return _react2['default'].createElement(
@@ -35509,12 +35602,12 @@
 	            ),
 	            _react2['default'].createElement(
 	                'form',
-	                { role: 'form', onSubmit: this.handleSubmit },
+	                { onSubmit: this.handleSubmit, role: 'form' },
 	                _react2['default'].createElement(
 	                    'div',
 	                    null,
-	                    _react2['default'].createElement('input', { type: 'text', value: this.state.title, onChange: this.handleTitleChange }),
-	                    _react2['default'].createElement('textarea', { value: this.state.body, onChange: this.handleBodyChange })
+	                    _react2['default'].createElement('input', { onChange: this.handleTitleChange, type: 'text', value: this.state.title }),
+	                    _react2['default'].createElement('textarea', { onChange: this.handleBodyChange, value: this.state.body })
 	                ),
 	                _react2['default'].createElement(
 	                    'button',
@@ -35525,6 +35618,7 @@
 	        );
 	    }
 	});
+	module.exports = exports['default'];
 
 /***/ }
 /******/ ]);

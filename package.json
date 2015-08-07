@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/henricsa/blog#readme",
   "dependencies": {
+    "co": "^4.6.0",
     "co-monk": "^1.0.0",
     "ejs": "^2.3.2",
     "koa": "^0.21.0",

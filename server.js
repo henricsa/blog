@@ -1,34 +1,24 @@
 require('babel-core/register');
 
 var koa = require('koa');
-var serve = require('koa-static');
 var logger = require('koa-logger');
-var router = require('koa-router')();
-var session = require('koa-session');
+var serve = require('koa-static');
 var bodyParser = require('koa-bodyparser');
-var routes = require('./app/server/routes');
-var views = require('./app/server/views')();
-var passport = require('./app/server/auth')();
+var router = require('koa-router')();
+var passport = require('koa-passport');
 
 var app = koa();
-app.proxy = true;
-app.keys = ['some secret hurr'];
-app.use(logger())
-   .use(serve(__dirname + '/public'))
-   .use(views)
-   .use(bodyParser())
-   .use(session({maxage: 1800000}, app))
-   .use(passport.initialize())
-   .use(passport.session());
+app.use(logger());
+app.use(serve(__dirname + '/public'));
+app.use(bodyParser());
 
-   router.get('/api/isLoggedIn', routes.isLoggedIn)
-         .get('/api/logout', routes.logout)
-         .post('/api/post', routes.blogPost)
-         .post('/api/login', passport.authenticate('local', {
-                                   successRedirect: '/admin',
-                                   failureRedirect: '/login'
-                               }))
-         .all('*', routes.blog);
+require('./app/server/middlewares/views')(app);
+require('./app/server/middlewares/session')(app);
+require('./app/server/middlewares/auth')(app, passport);
 
-app.use(router.routes())
-   .listen(3000);
+require('./app/server/controllers/auth')(router, passport);
+require('./app/server/controllers/post')(router);
+require('./app/server/controllers/render')(router);
+
+app.use(router.routes());
+app.listen(3000);
