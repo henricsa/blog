@@ -4,15 +4,15 @@ import {
     HistoryLocation
 } from 'react-router';
 import http from 'superAgent';
-var routes = require('../shared/routes');
+const routes = require('../shared/routes');
 
-var mountNode = document.getElementById('react-main-mount');
+const mountNode = document.getElementById('react-main-mount');
 
-Router.run(routes, HistoryLocation, function(Root, state) {
-    var render = () => {
+Router.run(routes, HistoryLocation, function callback(Root, state) {
+    const render = () => {
         React.render(<Root posts={window.blog.posts}/>, mountNode);
     };
-    var authenticateRoutes = state.routes.filter((route) => {
+    const authenticateRoutes = state.routes.filter((route) => {
         return route.handler.authenticate;
     });
 
@@ -27,5 +27,4 @@ Router.run(routes, HistoryLocation, function(Root, state) {
     } else {
         render();
     }
-
 });

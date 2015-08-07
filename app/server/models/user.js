@@ -1,12 +1,15 @@
-var User = require('../helpers/db').getCollection('user');
+const User = require('../helpers/db').getCollection('user');
+
+function* getById(id) {
+    const user = yield User.findById(id);
+    return user;
+}
+function* getFirst(query) {
+    const user = yield User.findOne(query);
+    return user;
+}
 
 module.exports = {
-    getById: function*(id) {
-        var user = yield User.findById(id);
-        return user;
-    },
-    getFirst: function*(query) {
-        var user = yield User.findOne(query);
-        return user;
-    }
+    getById,
+    getFirst,
 };

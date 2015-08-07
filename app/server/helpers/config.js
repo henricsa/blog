@@ -1,14 +1,14 @@
 module.exports = {
-    getEnvConfig: function () {
+    getEnvConfig() {
         return this[process.env.NODE_ENV || 'development'];
     },
     production: {
-        mongoUrl: 'localhost/blog'
+        mongoUrl: 'localhost/blog',
     },
     development: {
-        mongoUrl: 'localhost/blog-dev'
+        mongoUrl: 'localhost/blog-dev',
     },
     test: {
-        mongoUrl: 'localhost/blog-test'
-    }
+        mongoUrl: 'localhost/blog-test',
+    },
 };

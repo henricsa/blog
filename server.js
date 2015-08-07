@@ -1,14 +1,14 @@
 require('babel-core/register');
 
-var koa = require('koa');
-var logger = require('koa-logger');
-var serve = require('koa-static');
-var bodyParser = require('koa-bodyparser');
-var favicon = require('koa-favicon');
-var router = require('koa-router')();
-var passport = require('koa-passport');
+const koa = require('koa');
+const logger = require('koa-logger');
+const serve = require('koa-static');
+const bodyParser = require('koa-bodyparser');
+const favicon = require('koa-favicon');
+const router = require('koa-router')();
+const passport = require('koa-passport');
 
-var app = koa();
+const app = koa();
 app.use(logger());
 app.use(serve(__dirname + '/public'));
 app.use(favicon());

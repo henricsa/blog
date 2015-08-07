@@ -1,13 +1,13 @@
-var co = require('co');
-var User = require('../models/user');
-var LocalStrategy = require('passport-local').Strategy;
+const co = require('co');
+const User = require('../models/user');
+const LocalStrategy = require('passport-local').Strategy;
 
 function serialize(user, done) {
     done(null, user._id);
 }
 
 function deserialize(id, done) {
-    co(function*() {
+    co(function* () {
         return yield User.getById(id);
     }).then((user) => {
         done(null, user);
@@ -16,20 +16,20 @@ function deserialize(id, done) {
     });
 }
 
-var strategy = new LocalStrategy(function(username, password, done) {
+const strategy = new LocalStrategy((username, password, done) => {
     co(function*() {
         return yield User.getFirst({
-            username: username
+            username: username,
         });
     }).then((user) => {
         if (!user) {
             return done(null, false, {
-                message: 'Incorrect username.'
+                message: 'Incorrect username.',
             });
         }
         if (user.password !== password) {
             return done(null, false, {
-                message: 'Incorrect password.'
+                message: 'Incorrect password.',
             });
         }
         return done(null, user);
@@ -40,7 +40,7 @@ var strategy = new LocalStrategy(function(username, password, done) {
     });
 });
 
-module.exports = function(app, passport) {
+module.exports = (app, passport) => {
     passport.serializeUser(serialize);
     passport.deserializeUser(deserialize);
     passport.use(strategy);

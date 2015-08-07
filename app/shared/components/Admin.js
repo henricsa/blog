@@ -5,20 +5,20 @@ import {
 
 export default React.createClass({
     propTypes: {
-        posts: React.PropTypes.array.isRequired
+        posts: React.PropTypes.array.isRequired,
     },
     statics: {
-        authenticate: true
+        authenticate: true,
     },
-    getInitialState: function() {
+    getInitialState() {
         return {
-            posts: this.props.posts
+            posts: this.props.posts,
         };
     },
-    render: function() {
-        var createItem = (post) => {
+    render() {
+        const createItem = (post, index) => {
             return (
-                <li key={post.title}>
+                <li key={index}>
                     <Link to="/admin">{post.title}</Link>
                 </li>
             );
@@ -30,5 +30,5 @@ export default React.createClass({
                 <ul>{this.state.posts.map(createItem)}</ul>
             </div>
         );
-    }
+    },
 });

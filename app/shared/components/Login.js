@@ -1,23 +1,13 @@
 import React from 'react';
 
 export default React.createClass({
-    getInitialState: function() {
+    getInitialState() {
         return {
             username: '',
-            password: ''
+            password: '',
         };
     },
-    handleUsernameChange: function(event) {
-        this.setState({
-            username: event.target.value
-        });
-    },
-    handlePasswordChange: function(event) {
-        this.setState({
-            password: event.target.value
-        });
-    },
-    render: function() {
+    render() {
         return (
             <form action="/api/login" method="POST" role="form">
                 <div>
@@ -27,5 +17,15 @@ export default React.createClass({
                 <button type="submit">Logga in</button>
             </form>
         );
-    }
+    },
+    handleUsernameChange(event) {
+        this.setState({
+            username: event.target.value,
+        });
+    },
+    handlePasswordChange(event) {
+        this.setState({
+            password: event.target.value,
+        });
+    },
 });

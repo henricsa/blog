@@ -13,11 +13,11 @@ function* logout() {
 function login(passport) {
     return passport.authenticate('local', {
         successRedirect: '/admin',
-        failureRedirect: '/login'
+        failureRedirect: '/login',
     });
 }
 
-module.exports = function(router, passport) {
+module.exports = (router, passport) => {
     router.get('/api/isLoggedIn', isLoggedIn);
     router.get('/api/logout', logout);
     router.post('/api/login', login(passport));

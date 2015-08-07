@@ -3,32 +3,15 @@ import http from 'superAgent';
 
 export default React.createClass({
     statics: {
-        authenticate: true
+        authenticate: true,
     },
-    getInitialState: function() {
+    getInitialState() {
         return {
             title: '',
-            body: ''
+            body: '',
         };
     },
-    handleTitleChange: function(event) {
-        this.setState({
-            title: event.target.value
-        });
-    },
-    handleBodyChange: function(event) {
-        this.setState({
-            body: event.target.value
-        });
-    },
-    handleSubmit: function(event) {
-        event.preventDefault();
-        http.post('/api/post').send({
-            title: this.state.title,
-            body: this.state.body
-        }).end();
-    },
-    render: function() {
+    render() {
         return (
             <div>
                 <h2>Nytt blogginlägg</h2>
@@ -41,5 +24,22 @@ export default React.createClass({
                 </form>
             </div>
         );
-    }
+    },
+    handleTitleChange(event) {
+        this.setState({
+            title: event.target.value,
+        });
+    },
+    handleBodyChange(event) {
+        this.setState({
+            body: event.target.value,
+        });
+    },
+    handleSubmit(event) {
+        event.preventDefault();
+        http.post('/api/post').send({
+            title: this.state.title,
+            body: this.state.body,
+        }).end();
+    },
 });

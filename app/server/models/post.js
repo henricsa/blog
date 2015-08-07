@@ -1,11 +1,15 @@
-var Post = require('../helpers/db').getCollection('post');
+const Post = require('../helpers/db').getCollection('post');
+
+function* create(post) {
+    yield Post.insert(post);
+}
+
+function* getAll() {
+    const post = yield Post.find({});
+    return post;
+}
 
 module.exports = {
-    create: function*(post) {
-        yield Post.insert(post);
-    },
-    getAll: function*() {
-        var post = yield Post.find({});
-        return post;
-    }
+    create,
+    getAll,
 };

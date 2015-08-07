@@ -4,12 +4,12 @@ import {
 } from 'react-router';
 
 export default React.createClass({
-    render: function() {
+    render() {
         return (
             <div>
                 <div>Under päronträdet</div>
                 <RouteHandler {...this.props}/>
             </div>
         );
-    }
+    },
 });

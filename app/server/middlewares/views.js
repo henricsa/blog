@@ -1,9 +1,9 @@
-var views = require('koa-views');
+const views = require('koa-views');
 
-module.exports = function(app) {
+module.exports = (app) => {
     app.use(views('../views', {
         map: {
-            html: 'ejs'
-        }
+            html: 'ejs',
+        },
     }));
 };

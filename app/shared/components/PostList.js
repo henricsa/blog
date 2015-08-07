@@ -1,25 +1,24 @@
 import React from 'react';
 import Remarkable from 'remarkable';
 
-var markdown = new Remarkable();
+const markdown = new Remarkable();
 
 export default React.createClass({
     propTypes: {
-        posts: React.PropTypes.array.isRequired
+        posts: React.PropTypes.array.isRequired,
     },
-    getInitialState: function() {
+    getInitialState() {
         return {
-            posts: this.props.posts
+            posts: this.props.posts,
         };
     },
-    render: function() {
-        var createPost = (post,
-        index) => {
+    render() {
+        const createPost = (post, index) => {
             return (
                 <div key={index}>
                     <h2>{post.title}</h2>
                     <div dangerouslySetInnerHTML={{
-                        __html: markdown.render(post.body)
+                        __html: markdown.render(post.body),
                     }}/>
                 </div>
             );
@@ -29,5 +28,5 @@ export default React.createClass({
                 {this.state.posts.map(createPost)}
             </div>
         );
-    }
+    },
 });

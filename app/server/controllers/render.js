@@ -1,13 +1,13 @@
-var Post = require('../models/post');
-var renderHtml = require('../helpers/renderHtml');
+const Post = require('../models/post');
+const renderHtml = require('../helpers/renderHtml');
 
 function* render() {
     try {
-        var initialPosts = yield Post.getAll();
-        var html = yield renderHtml(this.req.url, this.isAuthenticated(), initialPosts);
+        const initialPosts = yield Post.getAll();
+        const html = yield renderHtml(this.req.url, this.isAuthenticated(), initialPosts);
         yield this.render('index', {
-            html: html,
-            posts: JSON.stringify(initialPosts)
+            html,
+            posts: JSON.stringify(initialPosts),
         });
     } catch (err) {
         if (err.path) {
@@ -18,6 +18,6 @@ function* render() {
     }
 }
 
-module.exports = function(router) {
+module.exports = (router) => {
     router.all('*', render);
 };
